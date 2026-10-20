@@ -30,6 +30,13 @@ public class SurferController : MonoBehaviour
 
     // Current vertical speed. Negative = moving down, positive = moving up.
     private float velocityY;
+        // Used to block diving when the surfer is out of breath.
+    private BreathMeter breath;
+
+    private void Awake()
+    {
+        breath = GetComponent<BreathMeter>();
+    }
 
     /// <summary>True when the surfer is below the water surface.</summary>
     public bool IsUnderwater => transform.position.y < surfaceY - 0.1f;
@@ -37,7 +44,9 @@ public class SurferController : MonoBehaviour
     private void Update()
     {
         // Push down while diving, otherwise let the water push up.
-        float acceleration = IsDiveHeld() ? -diveForce : buoyancy;
+                // Can only dive if the key is held AND the surfer has breath to spare.
+        bool isDiving = IsDiveHeld() && (breath == null || breath.CanDive);
+        float acceleration = isDiving ? -diveForce : buoyancy;
         velocityY += acceleration * Time.deltaTime;
 
         // Water drag slows the surfer down so movement feels heavy and smooth.
