@@ -43,6 +43,11 @@ public class SurferController : MonoBehaviour
 
     private void Update()
     {
+                // Freeze the surfer once the run is over.
+        if (GameManager.Instance != null && !GameManager.Instance.IsPlaying)
+        {
+            return;
+        }
         // Push down while diving, otherwise let the water push up.
                 // Can only dive if the key is held AND the surfer has breath to spare.
         bool isDiving = IsDiveHeld() && (breath == null || breath.CanDive);
