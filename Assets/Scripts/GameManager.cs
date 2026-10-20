@@ -44,4 +44,17 @@ public class GameManager : MonoBehaviour
         ScrollSpeed = Mathf.Min(maxSpeed, ScrollSpeed + speedIncreasePerSecond * Time.deltaTime);
         Distance += ScrollSpeed * Time.deltaTime;
     }
+
+    /// <summary>Stops the run. Called when the surfer runs out of lives.</summary>
+    public void EndGame()
+    {
+        if (!IsPlaying)
+        {
+            return;
+        }
+
+        IsPlaying = false;
+        ScrollSpeed = 0f;
+        Debug.Log($"Game over! Distance: {Distance:F0} m");
+    }
 }
