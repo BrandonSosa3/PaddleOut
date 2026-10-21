@@ -1048,7 +1048,10 @@ MonoBehaviour:
   setMaxWaves: 4
   distancePerExtraWave: 300
   afterSetPause: 1.5
-  calmSpawns: []
+  calmSpawns:
+  - {fileID: 5882092087772901075, guid: 41c1fb74fde4d4ee48e74f506fea8abd, type: 3}
+  - {fileID: 5882092087772901075, guid: d8b487cdf856944d7923e95984840c69, type: 3}
+  - {fileID: 5882092087772901075, guid: 597684698dc464174a728915ea9f15c2, type: 3}
 --- !u!4 &621396590
 Transform:
   m_ObjectHideFlags: 0
