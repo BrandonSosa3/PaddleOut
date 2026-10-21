@@ -1052,6 +1052,8 @@ MonoBehaviour:
   - {fileID: 5882092087772901075, guid: 41c1fb74fde4d4ee48e74f506fea8abd, type: 3}
   - {fileID: 5882092087772901075, guid: d8b487cdf856944d7923e95984840c69, type: 3}
   - {fileID: 5882092087772901075, guid: 597684698dc464174a728915ea9f15c2, type: 3}
+  - {fileID: 8813191399856452860, guid: d7d0ab9953e164df2a17cceeaf4d64da, type: 3}
+  - {fileID: 8813191399856452860, guid: d7d0ab9953e164df2a17cceeaf4d64da, type: 3}
 --- !u!4 &621396590
 Transform:
   m_ObjectHideFlags: 0
@@ -1236,6 +1238,7 @@ MonoBehaviour:
   startSpeed: 5
   maxSpeed: 12
   speedIncreasePerSecond: 0.1
+  pointsPerShell: 10
 --- !u!4 &1010071996
 Transform:
   m_ObjectHideFlags: 0
@@ -1479,6 +1482,8 @@ MonoBehaviour:
   maxLives: 3
   invincibleTime: 1.5
   blinkInterval: 0.1
+  shieldVisual: {fileID: 0}
+  shieldPopGrace: 0.75
 --- !u!50 &1040073817
 Rigidbody2D:
   serializedVersion: 5

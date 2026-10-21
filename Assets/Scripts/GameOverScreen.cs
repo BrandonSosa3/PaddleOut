@@ -48,8 +48,8 @@ public class GameOverScreen : MonoBehaviour
     private void Show()
     {
         GameManager game = GameManager.Instance;
-        scoreText.text = $"Distance: {game.Score} m";
-        highScoreText.text = game.IsNewHighScore ? "NEW HIGH SCORE!" : $"Best: {game.HighScore} m";
+        scoreText.text = $"{Mathf.FloorToInt(game.Distance)} m  +  {game.Shells} shells  =  {game.Score} points";
+        highScoreText.text = game.IsNewHighScore ? "NEW HIGH SCORE!" : $"Best: {game.HighScore} points";
         panel.SetActive(true);
     }
 

@@ -2,8 +2,8 @@ using UnityEngine;
 
 /// <summary>
 /// Runs the overall game: how fast the ocean scrolls, how far the
-/// surfer has paddled, the score, and whether a run is in progress.
-/// Other scripts reach it through GameManager.Instance.
+/// surfer has paddled, shells collected, the score, and whether a run
+/// is in progress. Other scripts reach it through GameManager.Instance.
 /// </summary>
 public class GameManager : MonoBehaviour
 {
@@ -21,17 +21,24 @@ public class GameManager : MonoBehaviour
     [Tooltip("How much the speed increases every second.")]
     [SerializeField] private float speedIncreasePerSecond = 0.1f;
 
+    [Header("Scoring")]
+    [Tooltip("Points each shell is worth.")]
+    [SerializeField] private int pointsPerShell = 10;
+
     /// <summary>Current speed everything scrolls left at.</summary>
     public float ScrollSpeed { get; private set; }
 
     /// <summary>Total distance paddled this run.</summary>
     public float Distance { get; private set; }
 
+    /// <summary>Shells collected this run.</summary>
+    public int Shells { get; private set; }
+
     /// <summary>False once the run is over.</summary>
     public bool IsPlaying { get; private set; } = true;
 
-    /// <summary>This run's score (distance for now; shells get added later).</summary>
-    public int Score => Mathf.FloorToInt(Distance);
+    /// <summary>This run's score: distance plus bonus points for shells.</summary>
+    public int Score => Mathf.FloorToInt(Distance) + Shells * pointsPerShell;
 
     /// <summary>Best score ever, saved between play sessions.</summary>
     public int HighScore => PlayerPrefs.GetInt(HighScoreKey, 0);
@@ -58,6 +65,15 @@ public class GameManager : MonoBehaviour
         // Slowly ramp up the speed so the game gets harder the longer you last.
         ScrollSpeed = Mathf.Min(maxSpeed, ScrollSpeed + speedIncreasePerSecond * Time.deltaTime);
         Distance += ScrollSpeed * Time.deltaTime;
+    }
+
+    /// <summary>Adds one shell. Called by shell pickups.</summary>
+    public void AddShell()
+    {
+        if (IsPlaying)
+        {
+            Shells++;
+        }
     }
 
     /// <summary>Stops the run and saves the high score. Called when the surfer runs out of lives.</summary>

@@ -2,10 +2,10 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// Tracks the surfer's lives (shown as surfboards).
-/// Touching a hazard costs one life, then the surfer blinks and is
-/// briefly invincible so a single wave can't hit them twice.
-/// At zero lives, the run ends.
+/// Tracks the surfer's lives (shown as surfboards) and the Bubble Shield.
+/// Touching a hazard costs one life, unless the shield is up, in which case
+/// the shield pops instead. After a hit, the surfer blinks and is briefly
+/// invincible so a single wave can't hit them twice. At zero lives, the run ends.
 /// </summary>
 [RequireComponent(typeof(SpriteRenderer))]
 public class SurferHealth : MonoBehaviour
@@ -20,11 +20,23 @@ public class SurferHealth : MonoBehaviour
     [Tooltip("How fast the surfer blinks while invincible.")]
     [SerializeField] private float blinkInterval = 0.1f;
 
+    [Header("Bubble Shield")]
+    [Tooltip("The bubble drawn around the surfer while shielded. Starts hidden.")]
+    [SerializeField] private GameObject shieldVisual;
+    [Tooltip("Short safe window after the shield pops, so the same hazard can't hit right after.")]
+    [SerializeField] private float shieldPopGrace = 0.75f;
+
     /// <summary>Lives remaining.</summary>
     public int Lives { get; private set; }
 
-    /// <summary>Fires whenever lives change (used later to update the surfboard icons).</summary>
+    /// <summary>True while the Bubble Shield is active.</summary>
+    public bool HasShield { get; private set; }
+
+    /// <summary>Fires whenever lives change (used to update the life icons).</summary>
     public event System.Action<int> LivesChanged;
+
+    /// <summary>Fires when the shield blocks a hit (used later for the pop sound).</summary>
+    public event System.Action ShieldBlocked;
 
     private SpriteRenderer spriteRenderer;
     private float invincibleUntil;
@@ -40,6 +52,7 @@ public class SurferHealth : MonoBehaviour
     private void Start()
     {
         LivesChanged?.Invoke(Lives);
+        SetShieldVisual(false);
     }
 
     /// <summary>Unity calls this when the surfer's collider overlaps a trigger collider.</summary>
@@ -51,8 +64,33 @@ public class SurferHealth : MonoBehaviour
             return;
         }
 
-        TakeHit();
+        if (HasShield)
+        {
+            PopShield();
+        }
+        else
+        {
+            TakeHit();
+        }
+
         hazard.OnHitSurfer();
+    }
+
+    /// <summary>Turns on the Bubble Shield. Called by the shield pickup.</summary>
+    public void GiveShield()
+    {
+        HasShield = true;
+        SetShieldVisual(true);
+    }
+
+    /// <summary>The shield absorbs a hit instead of the surfer losing a life.</summary>
+    private void PopShield()
+    {
+        HasShield = false;
+        SetShieldVisual(false);
+        invincibleUntil = Time.time + shieldPopGrace;
+        Debug.Log("Shield blocked a hit!");
+        ShieldBlocked?.Invoke();
     }
 
     /// <summary>Removes a life, then either ends the game or starts invincibility.</summary>
@@ -84,5 +122,13 @@ public class SurferHealth : MonoBehaviour
             yield return new WaitForSeconds(blinkInterval);
         }
         spriteRenderer.enabled = true;
+    }
+
+    private void SetShieldVisual(bool visible)
+    {
+        if (shieldVisual != null)
+        {
+            shieldVisual.SetActive(visible);
+        }
     }
 }
