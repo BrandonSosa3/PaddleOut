@@ -15,6 +15,8 @@ public class HUD : MonoBehaviour
     [Header("UI Elements")]
     [Tooltip("Text that shows distance paddled.")]
     [SerializeField] private TMP_Text distanceText;
+    [Tooltip("Text that shows shells collected.")]
+    [SerializeField] private TMP_Text shellText;
     [Tooltip("One icon per life, in order. Icons hide as lives are lost.")]
     [SerializeField] private Image[] lifeIcons;
     [Tooltip("The SET INCOMING banner. Starts hidden.")]
@@ -44,11 +46,21 @@ public class HUD : MonoBehaviour
         }
     }
 
-    private void Update()
+        private void Update()
     {
-        if (distanceText != null && GameManager.Instance != null)
+        if (GameManager.Instance == null)
+        {
+            return;
+        }
+
+        if (distanceText != null)
         {
             distanceText.text = $"{GameManager.Instance.Distance:F0} m";
+        }
+
+        if (shellText != null)
+        {
+            shellText.text = $"Shells: {GameManager.Instance.Shells}";
         }
     }
 
