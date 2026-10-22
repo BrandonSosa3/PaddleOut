@@ -15,6 +15,8 @@ public class GameOverScreen : MonoBehaviour
     [SerializeField] private TMP_Text highScoreText;
     [Tooltip("Short pause before the panel appears, so the wipeout can be seen.")]
     [SerializeField] private float showDelay = 1f;
+    [Tooltip("Name of the title screen scene.")]
+    [SerializeField] private string titleSceneName = "TitleScreen";
 
     private void Start()
     {
@@ -57,5 +59,11 @@ public class GameOverScreen : MonoBehaviour
     public void PlayAgain()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    /// <summary>Goes back to the title screen. Hooked up to the Main Menu button.</summary>
+    public void GoToTitle()
+    {
+        SceneManager.LoadScene(titleSceneName);
     }
 }
