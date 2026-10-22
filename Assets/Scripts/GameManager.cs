@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     // Key used to save the high score on the player's computer.
-    private const string HighScoreKey = "HighScore";
+    public const string HighScoreKey = "HighScore";
 
     [Header("Ocean Speed")]
     [Tooltip("How fast obstacles move toward the surfer at the start of a run.")]
