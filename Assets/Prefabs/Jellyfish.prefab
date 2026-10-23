@@ -169,6 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Hazard
   destroyOnHit: 0
+  hitSound: {fileID: 8300000, guid: 4bfa942b6b61b45178fc2dbb693bd56b, type: 3}
 --- !u!114 &7761326365830702312
 MonoBehaviour:
   m_ObjectHideFlags: 0

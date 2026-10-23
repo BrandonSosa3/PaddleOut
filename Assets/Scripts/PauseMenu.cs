@@ -19,6 +19,7 @@ public class PauseMenu : MonoBehaviour
         pausePanel.SetActive(false);
         // Make sure time is running when a new run starts (in case we restarted while paused).
         Time.timeScale = 1f;
+        AudioListener.pause = false;
     }
 
     private void Update()
@@ -44,6 +45,7 @@ public class PauseMenu : MonoBehaviour
     {
         IsPaused = !IsPaused;
         Time.timeScale = IsPaused ? 0f : 1f;
+        AudioListener.pause = IsPaused;
         pausePanel.SetActive(IsPaused);
     }
 }

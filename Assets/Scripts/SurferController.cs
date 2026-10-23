@@ -28,28 +28,42 @@ public class SurferController : MonoBehaviour
     [Tooltip("How much the board tilts based on vertical speed.")]
     [SerializeField] private float tiltAmount = 3f;
 
+    [Header("Sound Triggers")]
+    [Tooltip("How far below the surface counts as a real dive. Stops tiny bobs from triggering splash sounds.")]
+    [SerializeField] private float splashDepth = 0.4f;
+
+    /// <summary>Fires the moment the surfer dives under (used for the splash sound).</summary>
+    public event System.Action Dove;
+
+    /// <summary>Fires the moment the surfer comes back up (used for the gasp sound).</summary>
+    public event System.Action Surfaced;
+
+    /// <summary>True when the surfer is below the water surface.</summary>
+    public bool IsUnderwater => transform.position.y < surfaceY - 0.1f;
+
     // Current vertical speed. Negative = moving down, positive = moving up.
     private float velocityY;
-        // Used to block diving when the surfer is out of breath.
+
+    // Used to block diving when the surfer is out of breath.
     private BreathMeter breath;
+
+    // Tracks whether we're in a "real" dive, so splash/gasp only fire once per dive.
+    private bool isSubmerged;
 
     private void Awake()
     {
         breath = GetComponent<BreathMeter>();
     }
 
-    /// <summary>True when the surfer is below the water surface.</summary>
-    public bool IsUnderwater => transform.position.y < surfaceY - 0.1f;
-
     private void Update()
     {
-                // Freeze the surfer once the run is over.
+        // Freeze the surfer once the run is over.
         if (GameManager.Instance != null && !GameManager.Instance.IsPlaying)
         {
             return;
         }
-        // Push down while diving, otherwise let the water push up.
-                // Can only dive if the key is held AND the surfer has breath to spare.
+
+        // Can only dive if the key is held AND the surfer has breath to spare.
         bool isDiving = IsDiveHeld() && (breath == null || breath.CanDive);
         float acceleration = isDiving ? -diveForce : buoyancy;
         velocityY += acceleration * Time.deltaTime;
@@ -86,6 +100,23 @@ public class SurferController : MonoBehaviour
 
         // Tilt the board: nose down when diving, nose up when rising.
         transform.rotation = Quaternion.Euler(0f, 0f, velocityY * tiltAmount);
+
+        CheckSurfaceCrossing(position.y);
+    }
+
+    /// <summary>Fires Dove/Surfaced once each time the surfer goes under or comes back up.</summary>
+    private void CheckSurfaceCrossing(float y)
+    {
+        if (!isSubmerged && y < surfaceY - splashDepth)
+        {
+            isSubmerged = true;
+            Dove?.Invoke();
+        }
+        else if (isSubmerged && y >= surfaceY - 0.05f)
+        {
+            isSubmerged = false;
+            Surfaced?.Invoke();
+        }
     }
 
     /// <summary>Returns true while Space, S, or the Down Arrow is held.</summary>
