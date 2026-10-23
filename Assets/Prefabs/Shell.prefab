@@ -161,3 +161,5 @@ MonoBehaviour:
   randomHeight: 1
   minY: -3
   maxY: 1
+  collectEffect: {fileID: 2016976084419363660, guid: b6c3a129a37154da497da7f8d095ac8a, type: 3}
+  effectColor: {r: 0.9411765, g: 0.9019608, b: 0.5490196, a: 1}

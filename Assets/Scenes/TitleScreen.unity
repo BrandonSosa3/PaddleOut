@@ -179,25 +179,28 @@ MonoBehaviour:
   m_text: 'HOW TO PLAY
 
 
-    Hold SPACE (or S / Down Arrow) to duck-dive. Let go
-    to float back up.
+    Hold SPACE (or S / Down) to duck-dive. Let go to float
+    back up.
 
 
-    Watch your BREATH bar. It drains underwater and refills
-    at the surface.
+    Watch your BREATH bar. It drains underwater and refills at the
+    surface.
 
     Run out and you''ll be forced up!
 
 
-    Dive under whitewash
-    sets. Dodge seagulls, jellyfish, and rocks.
+    Dive under whitewash sets.
+    Dodge seagulls, pufferfish, and rocks.
 
 
-    Shells = points   White bubbles
-    = refill breath   Purple bubbles = shield
+    Shells = points   White bubble =
+    refill breath   Purple bubble = shield
+
+    KITE = fly into the sky! Hold SPACE
+    to climb and grab the sky shells.
 
 
-    P or Esc = Pause'
+    P / Esc = Pause    M = Mute ocean'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

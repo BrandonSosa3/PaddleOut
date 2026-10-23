@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 public class Pickup : MonoBehaviour
 {
-    public enum PickupType { Shell, DeepBreath, BubbleShield }
+    public enum PickupType { Shell, DeepBreath, BubbleShield, Kite }
 
     [Tooltip("What this pickup does when collected.")]
     [SerializeField] private PickupType type = PickupType.Shell;
@@ -16,6 +16,12 @@ public class Pickup : MonoBehaviour
     [SerializeField] private bool randomHeight = true;
     [SerializeField] private float minY = -3f;
     [SerializeField] private float maxY = 1f;
+
+    [Header("Collect Effect")]
+    [Tooltip("Particle burst spawned when this pickup is collected.")]
+    [SerializeField] private ParticleSystem collectEffect;
+    [Tooltip("Color of the burst (e.g. gold for shells, purple for the shield).")]
+    [SerializeField] private Color effectColor = Color.white;
 
     /// <summary>Fires whenever any pickup is collected (used later to play sounds).</summary>
     public static event System.Action<PickupType> Collected;
@@ -46,6 +52,7 @@ public class Pickup : MonoBehaviour
         }
 
         ApplyEffect(surfer);
+        SpawnCollectEffect();
         Collected?.Invoke(type);
         Destroy(gameObject);
     }
@@ -73,6 +80,28 @@ public class Pickup : MonoBehaviour
             case PickupType.BubbleShield:
                 surfer.GiveShield();
                 break;
+            
+            case PickupType.Kite:
+                KiteFlight kite = surfer.GetComponent<KiteFlight>();
+                if (kite != null)
+                {
+                    kite.StartKite();
+                }
+                break;
         }
+    }
+
+    /// <summary>Spawns a colored particle burst where the pickup was.</summary>
+    private void SpawnCollectEffect()
+    {
+        if (collectEffect == null)
+        {
+            return;
+        }
+
+        ParticleSystem effect = Instantiate(collectEffect, transform.position, Quaternion.identity);
+        ParticleSystem.MainModule main = effect.main;
+        main.startColor = effectColor;
+        effect.Play();
     }
 }

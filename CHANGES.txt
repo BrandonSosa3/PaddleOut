@@ -1,0 +1,52 @@
+Paddle Out - Changes from my one-pager
+Brandon Sosa
+
+Overall the core of the game ended up pretty close to what I pitched. You float on the surface, hold a key to duck-dive, and manage a breath meter while waves come at you in sets. The sets, the "SET INCOMING" warning, 3 lives, shells, the Deep Breath and Bubble Shield power-ups, the saved high score, and the muffled underwater sound all made it in. There's still no background music, just a quiet ocean sound you can mute with M.
+
+Here's what changed along the way.
+
+Things I changed
+
+The surfer stands on his board instead of lying down paddling. That's just because the best free surfer sprite I found was standing, and it matched the rest of the art better than anything else.
+
+The jellyfish turned into a pufferfish since the underwater art pack I used didn't have a jellyfish. It still bobs up and down, so it plays the same way.
+
+Lives are little surfer icons instead of surfboards, and shells are clams with a pearl inside. Both came down to what art I could find.
+
+I made the breath last a bit longer (about 4 seconds up to about 5.5). When I playtested, getting through a full set was too hard.
+
+Seagulls now fly at random heights instead of only skimming the water, which ties into the kite I added (below).
+
+I also switched the waves to a hit box that traces the actual shape of the wave. With a plain rectangle you'd get hit by empty space around the wave, which felt really unfair.
+
+
+Things I cut
+
+I dropped the foam board beginner, the floating trash, and the kelp. Four hazards (waves, seagulls, pufferfish, rocks) felt like enough since each one makes you do something different, and it kept the project finishable.
+
+I actually started on the shark from my stretch goals, where it chases you if you stay under too long. Once I thought it through with the breath meter, though, it just made dives way too punishing since you already can't stay under very long. So I cut it and did the kite instead.
+
+I also skipped the sunset sky, the separate surfer animation frames (he tilts when he moves and blinks when he gets hit instead), and the paddle stroke and shark bite sounds.
+
+
+Things I added
+
+The big one is a kitesurfing power-up. If you grab a kite, it pulls you out of the water and up into the sky for a few seconds. You hold Space to climb and let go to drift down. A row of bonus shells shows up high in the sky, seagulls are what you have to dodge up there, and the kite blinks right before it lets go and drops you back in the water. It basically adds a third layer to the game: sky, surface, and underwater.
+
+I made all of the sound effects myself by generating them with a Python script instead of downloading them (it's in Tools/make_sounds.py). The kite art was made the same way (Tools/make_kite.py).
+
+Some other sound stuff I added: the wave roar gets louder as a wave gets closer so you can hear a set coming, the gasp when you come up is louder the closer you were to running out of air, a heartbeat plays when you're low on breath, and seagulls squawk when they show up.
+
+For visuals I added water splashes when you dive or come up, a trail of bubbles while you're underwater, little bursts when you grab a pickup, a quick screen shake when you get hit, a flapping animation for the seagulls, and a scrolling background (clouds, palm trees, sand, and seaweed all moving at different speeds) so the ocean feels like it has some depth.
+
+A few small things too: pausing also pauses the audio, you can press Enter to restart after you wipe out, and there are Main Menu and Quit buttons.
+
+
+Controls
+
+Hold Space, S, or Down Arrow to dive
+Hold Space, W, or Up Arrow to climb while flying the kite
+Esc or P to pause
+M to mute the ocean sound
+Enter to restart after a wipeout
+Mouse for the menus

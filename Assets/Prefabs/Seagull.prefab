@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6734318018673929987}
   - component: {fileID: 4543987787541306501}
   - component: {fileID: 1070632216172813538}
+  - component: {fileID: 5522429099818393495}
   m_Layer: 0
   m_Name: Seagull
   m_TagString: Untagged
@@ -305,3 +306,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5522429099818393495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5882092087772901075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9e09bb730ac745c9bb082ab7a813d37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RandomHeight
+  minY: 1.2
+  maxY: 4.2

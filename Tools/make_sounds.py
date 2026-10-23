@@ -245,3 +245,46 @@ def ocean(dur):
     hiss = bp(noise(dur), 1200, 6000) * 0.18 * (0.3 + wash)
     return low + hiss
 save("ocean_ambience", loopify(ocean, LOOP, 1.0))
+
+# 16. shark_warning: ominous low pulses with a rising swell of water noise
+d = 1.6
+x = np.zeros(int(d * SR))
+for k, start in enumerate([0.0, 0.42, 0.74, 0.98]):
+    dur = 0.3
+    pulse = lp(tone(49, dur, "saw") + 0.6 * tone(98, dur, "saw"), 500)
+    pulse *= env(int(dur * SR), 0.03, None, 0.12) * (0.7 + 0.1 * k)
+    place(x, pulse, start)
+swell = lp(brown(d), 300) * np.interp(t_axis(d), [0, 1.2, d], [0, 0.6, 0])
+x += swell
+save("shark_warning", finish(x))
+
+# 17. shark_bite: crunchy chomp with a heavy thump
+d = 0.45
+x = np.zeros(int(d * SR))
+for k in range(3):
+    c = bp(noise(0.05), 500, 3500) * env(int(0.05 * SR), 0.001, 0.012)
+    place(x, c, 0.03 + k * 0.035)
+place(x, 0.9 * sweep(110, 40, 0.3) * env(int(0.3 * SR), 0.002, 0.08), 0.0)
+save("shark_bite", finish(x))
+
+# 18. kite_launch: rising gust of wind + bright lift-off sparkle
+d = 1.0
+t = t_axis(d)
+gust = noise(d)
+lo = bp(gust, 300, 1200, 2) * np.interp(t, [0, 0.5, 1.0], [0.2, 1, 0])
+hi = bp(gust, 1500, 5000, 2) * np.interp(t, [0, 0.6, 1.0], [0, 0.5, 0])
+x = lo + hi
+for k, f in enumerate([392, 523, 659, 784]):
+    note = (tone(f, 0.3, "tri") + 0.3 * tone(f * 2, 0.3)) * env(int(0.3 * SR), 0.003, 0.09)
+    place(x, 0.5 * note, 0.15 + k * 0.08)
+save("kite_launch", finish(x))
+
+# 19. kite_wind: loopable whistling wind while flying
+def wind(dur):
+    t = t_axis(dur)
+    n = noise(dur)
+    gusts = 0.6 + 0.4 * np.sin(2 * np.pi * t / 2.0) ** 2
+    whistle = bp(n, 700, 900, 2) * 0.8 + bp(n, 1400, 1700, 2) * 0.3
+    rush = bp(n, 200, 2500, 2) * 0.5
+    return (whistle + rush) * gusts
+save("kite_wind", loopify(wind, 4.0, 0.5))
